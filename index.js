@@ -9,18 +9,31 @@ addEventListener('load', () => {
     const targetHalfwidth = targetRect.width / 2;
     const targetHalfHeight = targetRect.height / 2;
 
+    let curX = 0;
+    let curY = 0;
+    let mouseX = 0;
+    let mouseY = 0;
 
-    document.addEventListener('mousemove', (event) => {
-        const x = event.clientX;
-        const y = event.clientY;
+
+    document.addEventListener('mousemove', (e) => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
         console.log(x,y);
-
-        vertical.style.transform = `translateX(${x}px)`;
-        horizontal.style.transform = `translateY(${y}px)`;
-        target.style.transform = `translate(${x-targetHalfwidth}px, ${y-targetHalfHeight}px)`;
-        tag.style.transform = `translate(${x}px, ${y}px)`;
-        tag.innerHTML = `${x}px, ${y}px`;
     })
 
+    function animate() {
+        requestAnimationFrame(animate);
+        curX += (mouseX - curX) * 0.1;
+        curY += (mouseY - curY) * 0.1;
+
+        
+        vertical.style.transform = `translateX(${curX}px)`;
+        horizontal.style.transform = `translateY(${curY}px)`;
+        target.style.transform = `translate(${curX-targetHalfwidth}px, ${curY-targetHalfHeight}px)`;
+        tag.style.transform = `translate(${curX}px, ${curY}px)`;
+        tag.innerHTML = `${Math.ceil(curX)}px, ${Math.ceil(curY)}px`;
+    }   
+    
+    animate();
 
 })
